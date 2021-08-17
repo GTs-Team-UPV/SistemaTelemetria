@@ -62,7 +62,7 @@ app.layout = html.Div(
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		X.append(data['xlength'][n])
 		Y.append(data['vel'][n])
 		
@@ -85,7 +85,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		Y2.append(data['fren'][n])		
 		graph = go.Scatter(
 			x=list(X),
@@ -108,7 +108,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		Y3.append(data['marcha'][n])
 		
 		graph = go.Scatter(
@@ -130,7 +130,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_gauge(n):
-	data = pd.read_csv('data.csv')
+	data = pd.read_csv('datosSimuladorCorregidos.csv')
 	return data['revact'][n]
 
 
@@ -139,7 +139,7 @@ def update_gauge(n):
 	[ Input('graph-update', 'n_intervals')]
 )
 def update_output(n):
-	data = pd.read_csv('data.csv')
+	data = pd.read_csv('datosSimuladorCorregidos.csv')
 	return int(data['comb'][n])
 
 
@@ -149,7 +149,7 @@ def update_output(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		X4.append(data['xtime'][n])
 		Y4.append(data['comb'][n])
 		
