@@ -25,9 +25,9 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div(
     [
-        dcc.Graph(id = 'live-graph', animate = True),
-        dcc.Graph(id = 'live-graph2', animate = True),
-        dcc.Graph(id = 'live-graph3', animate = True),
+        dcc.Graph(id = 'live-graph', animate = False),
+        dcc.Graph(id = 'live-graph2', animate = False),
+        dcc.Graph(id = 'live-graph3', animate = False),
         daq.Gauge(  
 			color="#DC3912",
 			showCurrentValue=True,
@@ -48,10 +48,10 @@ app.layout = html.Div(
             min = 0,
 			style={'margin': 'auto', 'textAlign': 'center'}
 		),
-        dcc.Graph(id = 'live-graph4', animate = True , style = {'center' : 'auto'}),
+        dcc.Graph(id = 'live-graph4', animate = False , style = {'center' : 'auto'}),
         dcc.Interval(
 			id = 'graph-update',
-			interval = 1000,
+			interval = 100,
 			n_intervals = 0
 		),
     ]
@@ -62,7 +62,7 @@ app.layout = html.Div(
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		X.append(data['xlength'][n])
 		Y.append(data['vel'][n])
 		
@@ -85,7 +85,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		Y2.append(data['fren'][n])		
 		graph = go.Scatter(
 			x=list(X),
@@ -108,7 +108,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		Y3.append(data['marcha'][n])
 		
 		graph = go.Scatter(
@@ -130,7 +130,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_gauge(n):
-	data = pd.read_csv('data.csv')
+	data = pd.read_csv('datosSimuladorCorregidos.csv')
 	return data['revact'][n]
 
 
@@ -139,7 +139,7 @@ def update_gauge(n):
 	[ Input('graph-update', 'n_intervals')]
 )
 def update_output(n):
-	data = pd.read_csv('data.csv')
+	data = pd.read_csv('datosSimuladorCorregidos.csv')
 	return int(data['comb'][n])
 
 
@@ -149,7 +149,7 @@ def update_output(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		X4.append(data['xtime'][n])
 		Y4.append(data['comb'][n])
 		
