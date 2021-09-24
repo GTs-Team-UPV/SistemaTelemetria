@@ -25,9 +25,9 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div(
     [
-        dcc.Graph(id = 'live-graph', animate = True),
-        dcc.Graph(id = 'live-graph2', animate = True),
-        dcc.Graph(id = 'live-graph3', animate = True),
+        dcc.Graph(id = 'live-graph', animate = False),
+        dcc.Graph(id = 'live-graph2', animate = False),
+        dcc.Graph(id = 'live-graph3', animate = False),
         daq.Gauge(  
 			color="#DC3912",
 			showCurrentValue=True,
@@ -48,10 +48,10 @@ app.layout = html.Div(
             min = 0,
 			style={'margin': 'auto', 'textAlign': 'center'}
 		),
-        dcc.Graph(id = 'live-graph4', animate = True , style = {'center' : 'auto'}),
+        dcc.Graph(id = 'live-graph4', animate = False , style = {'center' : 'auto'}),
         dcc.Interval(
 			id = 'graph-update',
-			interval = 1000,
+			interval = 100,
 			n_intervals = 0
 		),
     ]
