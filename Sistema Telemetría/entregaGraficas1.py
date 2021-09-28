@@ -64,7 +64,7 @@ app.layout = html.Div(
 def update_graph_scatter(n):
 		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		X.append(data['xlength'][n])
-		Y.append(data['vel'][n])
+		Y.append(data['vel'].iloc[-1])
 		
 		graph = go.Scatter(
 			x=list(X),
