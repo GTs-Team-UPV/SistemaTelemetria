@@ -25,7 +25,7 @@ app = dash.Dash(__name__)
 
 app.layout = html.Div(
     [
-        dcc.Graph(id = 'live-graph', animate = False),
+        dcc.Graph(id = 'speed-graph', animate = False),
         dcc.Graph(id = 'live-graph2', animate = False),
         dcc.Graph(id = 'live-graph3', animate = False),
         daq.Gauge(  
@@ -58,7 +58,7 @@ app.layout = html.Div(
 )
 
 @app.callback(
-	Output('live-graph', 'figure'),
+	Output('speed-graph', 'figure'),
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
