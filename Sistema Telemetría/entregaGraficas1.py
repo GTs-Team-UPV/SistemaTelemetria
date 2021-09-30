@@ -60,7 +60,7 @@ app.layout = html.Div(
 		# Actualizamos funciones cada 'interval' empezando desde 'n_interval'
         dcc.Interval(
 			id = 'graph-update',
-			interval = 100,
+			interval = 500,
 			n_intervals = 0
 		),
     ]
@@ -71,9 +71,9 @@ app.layout = html.Div(
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv('data.csv')
 		X.append(data['xlength'][n])
-		Y.append(data['vel'][n])
+		Y.append(data['vel'].iloc[-1])
 		
 		graph = go.Scatter(
 			x=list(X),
@@ -98,8 +98,8 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
-		Y2.append(data['fren'][n])		
+		data = pd.read_csv('data.csv')
+		Y2.append(data['fren'].iloc[-1])		
 		graph = go.Scatter(
 			x=list(X),
 			y=list(Y2),
@@ -125,8 +125,8 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
-		Y3.append(data['marcha'][n])
+		data = pd.read_csv('data.csv')
+		Y3.append(data['marcha'].iloc[-1])
 		
 		graph = go.Scatter(
 			x=list(X),
@@ -151,8 +151,8 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_gauge(n):
-	data = pd.read_csv('datosSimuladorCorregidos.csv')
-	return data['revact'][n]
+	data = pd.read_csv('data.csv')
+	return data['revact'].iloc[-1]
 
 
 @app.callback(
@@ -160,8 +160,8 @@ def update_gauge(n):
 	[ Input('graph-update', 'n_intervals')]
 )
 def update_output(n):
-	data = pd.read_csv('datosSimuladorCorregidos.csv')
-	return int(data['comb'][n])
+	data = pd.read_csv('data.csv')
+	return int(data['comb'].iloc[-1])
 
 
 
@@ -170,9 +170,9 @@ def update_output(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv('data.csv')
 		X4.append(data['xtime'][n])
-		Y4.append(data['comb'][n])
+		Y4.append(data['comb'].iloc[-1])
 		
 		graph = go.Scatter(
 			x=list(X),
