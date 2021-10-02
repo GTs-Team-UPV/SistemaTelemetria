@@ -76,7 +76,6 @@ def update_graph_scatter(n):
 		data = pd.read_csv('data.csv')
 		X.append(data['xlength'][n])
 		Y.append(data['vel'][n])
-        Y2.append(data['fren'][n])
 		graph = go.Scatter(
 			x=list(X),
 			y=list(Y),
@@ -84,15 +83,7 @@ def update_graph_scatter(n):
 			mode= 'lines+markers',
 			line=dict(color="#0674D5")
 		)
-        graph2 = go.Scatter(
-			x=list(X),
-			y=list(Y2),
-			name='Scatter',
-			mode= 'lines+markers',
-			line=dict(color="#F55643")
-		)
-
-		return {'data': [graph , graph2],
+		return {'data': [graph],
 				'layout' : go.Layout(
 					xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)', showline = True, linewidth = 2,
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
