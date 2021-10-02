@@ -12,60 +12,71 @@ import dash_daq as daq
 import numpy as np
 import plotly.express as px
 
-X = deque(maxlen = 40)
-X2 = deque(maxlen = 40)
-X3 = deque(maxlen = 20)
-X4 = deque(maxlen = 40)
-Y = deque(maxlen = 20)
-Y2 = deque(maxlen = 20)
-Y3 = deque(maxlen = 20)
-Y4 = deque(maxlen = 300)
+X = deque(maxlen=40)
+X2 = deque(maxlen=40)
+X3 = deque(maxlen=20)
+X4 = deque(maxlen=40)
+Y = deque(maxlen=20)
+Y2 = deque(maxlen=20)
+Y3 = deque(maxlen=20)
+Y4 = deque(maxlen=300)
 
+# Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
 
 app.layout = html.Div(
     [
-        dcc.Graph(id = 'speed-graph', animate = False),
-        dcc.Graph(id = 'live-graph2', animate = False),
-        dcc.Graph(id = 'live-graph3', animate = False),
-        daq.Gauge(  
+		# Añadimos la grafica de velocidad
+        dcc.Graph(id='vel-graph', animate=False),
+		# Añadimos gráfica de presión de frenada
+        dcc.Graph(id='fren-graph', animate=False),
+		# Añadimos gráfica de la marcha actual
+        dcc.Graph(id='marcha-graph', animate=False),
+		# Visor de revoluciones por segundo
+        daq.Gauge(
 			color="#DC3912",
 			showCurrentValue=True,
 			units="RPS",
 			id='gauge',
 			label="Revoluciones",
-			max = 8000,
-			min = 0,
+			max=8000,
+			min=0,
 			value=0
 		),
+		# Visor del tanque de gasolina, en porcentage
         daq.Tank(
 			value=100,
             color="#FF9900",
-			id = 'tank',
+			id='tank',
 			showCurrentValue=True,
 			units='litros',
-			max = 100,
-            min = 0,
+			max=100,
+            min=0,
 			style={'margin': 'auto', 'textAlign': 'center'}
 		),
-        dcc.Graph(id = 'live-graph4', animate = False , style = {'center' : 'auto'}),
+		# Gráfica de combustible en tiempo
+        dcc.Graph(id='comb-graph', animate=False, style={'center': 'auto'}
+		),
+		# Actualizamos funciones cada 'interval' empezando desde 'n_interval'
         dcc.Interval(
-			id = 'graph-update',
-			interval = 100,
-			n_intervals = 0
+			id='graph-update',
+			interval=100,
+			n_intervals=0
 		),
     ]
 )
+# Declaramos callbacks para el muestreo desde el csv asignado
+
 
 @app.callback(
-	Output('speed-graph', 'figure'),
-	[ Input('graph-update', 'n_intervals') ]
+	Output('vel-graph', 'figure'),
+	[Input('graph-update', 'n_intervals')]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv('data.csv')
 		X.append(data['xlength'][n])
 		Y.append(data['vel'][n])
-		
+        Y2.append(data['fren'][n])
 		graph = go.Scatter(
 			x=list(X),
 			y=list(Y),
@@ -73,19 +84,30 @@ def update_graph_scatter(n):
 			mode= 'lines+markers',
 			line=dict(color="#0674D5")
 		)
+        graph2 = go.Scatter(
+			x=list(X),
+			y=list(Y2),
+			name='Scatter',
+			mode= 'lines+markers',
+			line=dict(color="#F55643")
+		)
 
-		return {'data': [graph],
-				'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)'),
-                yaxis = dict(range = [min(Y),max(Y)], title = 'Velocidad (Km/h)'),
-                title = 'SPEED')}
+		return {'data': [graph , graph2],
+				'layout' : go.Layout(
+					xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)', showline = True, linewidth = 2,
+					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
+					yaxis = dict(range = [0,250], title = 'Velocidad (Km/h)', showline = True, linewidth = 2, 
+					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
+					title = 'SPEED')
+				}
 
 
 @app.callback(
-	Output('live-graph2', 'figure'),
+	Output('fren-graph', 'figure'),
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv('data.csv')
 		Y2.append(data['fren'][n])		
 		graph = go.Scatter(
 			x=list(X),
@@ -98,17 +120,23 @@ def update_graph_scatter(n):
 		
 
 		return {'data': [graph],
-				'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)'),
-                yaxis = dict(range = [min(Y2),max(Y2)], title = 'Presión de Frenada (atm)'),
-                title = 'FRENADA')}  
+				'layout' : go.Layout(
+					xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)', showline = True, linewidth = 2, 
+					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightBlue'),
+                	yaxis = dict(range = [0 , 250], title = 'Presión de Frenada (atm)', showline = True, linewidth = 2, 
+					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightBlue'),
+                    width = 500,
+                    height = 500,
+                	title = 'FRENADA')
+				}  
 
 
 @app.callback(
-	Output('live-graph3', 'figure'),
+	Output('marcha-graph', 'figure'),
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv('data.csv')
 		Y3.append(data['marcha'][n])
 		
 		graph = go.Scatter(
@@ -120,9 +148,15 @@ def update_graph_scatter(n):
 		)
 
 		return {'data': [graph],
-				'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)'),
-                yaxis = dict(range = [min(Y3),max(Y3)], title = 'Marcha Actual'),
-                title = 'MARCHA')}
+				'layout' : go.Layout(
+					xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)', showline = True, linewidth = 2, 
+					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
+                	yaxis = dict(range = [-1 , 6], title = 'Marcha Actual', showline = True, linewidth = 2, 
+					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
+                    width = 500,
+                    height = 500,
+                	title = 'MARCHA')
+				}
 
 
 @app.callback(
@@ -130,8 +164,8 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_gauge(n):
-	data = pd.read_csv('datosSimuladorCorregidos.csv')
-	return data['revact'][n]
+	data = pd.read_csv('data.csv')
+	return data['revact'].iloc[-1]
 
 
 @app.callback(
@@ -139,19 +173,19 @@ def update_gauge(n):
 	[ Input('graph-update', 'n_intervals')]
 )
 def update_output(n):
-	data = pd.read_csv('datosSimuladorCorregidos.csv')
-	return int(data['comb'][n])
+	data = pd.read_csv('data.csv')
+	return int(data['comb'].iloc[-1])
 
 
 
 @app.callback(
-	Output('live-graph4', 'figure'),
+	Output('comb-graph', 'figure'),
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv('data.csv')
 		X4.append(data['xtime'][n])
-		Y4.append(data['comb'][n])
+		Y4.append(data['comb'].iloc[-1])
 		
 		graph = go.Scatter(
 			x=list(X),
@@ -163,10 +197,11 @@ def update_graph_scatter(n):
 		)
 
 		return {'data': [graph],
-				'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)], title = 'TIME (s)'),
-                yaxis = dict(range = [min(Y4),max(Y4)], title = 'COMB ( % )'),
-                title = '% COMB / TIME')}
+				'layout' : go.Layout(
+					xaxis=dict(range=[min(X),10000], title = 'TIME (s)'),
+                	yaxis = dict(range = [0,100], title = 'COMB ( % )'),
+                	title = '% COMB / TIME')
+				}
 
 if __name__ == '__main__':
 	app.run_server(debug = True)
-
