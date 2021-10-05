@@ -1,7 +1,8 @@
 import dash
+import math
 from dash.dependencies import Output, Input
-import dash_core_components as dcc
-import dash_html_components as html
+from dash import dcc
+from dash import html
 from pandas.core.base import DataError
 import plotly
 import random
@@ -11,6 +12,7 @@ import pandas as pd
 import dash_daq as daq
 import numpy as np
 import plotly.express as px
+import predictor
 
 X = deque(maxlen=40)
 X2 = deque(maxlen=40)
@@ -156,7 +158,7 @@ def update_graph_scatter(n):
 )
 def update_gauge(n):
 	data = pd.read_csv('data.csv')
-	return data['revact'].iloc[-1]
+	return data['revact'][n]
 
 
 @app.callback(
@@ -165,9 +167,9 @@ def update_gauge(n):
 )
 def update_output(n):
 	data = pd.read_csv('data.csv')
-	return int(data['comb'].iloc[-1])
+	return int(data['comb'][n])
 
-
+comb_predic = predictor.Predictor()
 
 @app.callback(
 	Output('comb-graph', 'figure'),
@@ -176,10 +178,17 @@ def update_output(n):
 def update_graph_scatter(n):
 		data = pd.read_csv('data.csv')
 		X4.append(data['xtime'][n])
-		Y4.append(data['comb'].iloc[-1])
-		
+		Y4.append(data['comb'][n])
+
+		comb_predic.añadirDatos(list(Y4),list(X4),100)
+		punto0=comb_predic.predecirX([0])
+		punto = math.ceil(punto0[0])
+		prec = list(range(max(X4),punto,1))
+		prec.append(punto0[0])
+		Yp=comb_predic.predecirY(prec)
+
 		graph = go.Scatter(
-			x=list(X),
+			x=list(X4),
 			y=list(Y4),
 			name='Scatter',
             fill = 'tozeroy',
@@ -187,9 +196,17 @@ def update_graph_scatter(n):
 			mode= 'lines'
 		)
 
-		return {'data': [graph],
+		graph2 = go.Scatter(
+			x=prec,
+			y=Yp,
+			name = 'Scatter',
+			mode = 'markers',
+			line=dict(color="#FF7F0E")
+		)
+
+		return {'data': [graph, graph2],
 				'layout' : go.Layout(
-					xaxis=dict(range=[min(X),10000], title = 'TIME (s)'),
+					xaxis=dict(range=[min(X4),max(X4)+40], title = 'TIME (s)'),
                 	yaxis = dict(range = [0,100], title = 'COMB ( % )'),
                 	title = '% COMB / TIME')
 				}
