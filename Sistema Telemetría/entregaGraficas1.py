@@ -118,8 +118,6 @@ def update_graph_scatter(n):
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightBlue'),
                 	yaxis = dict(range = [0 , 250], title = 'Presión de Frenada (atm)', showline = True, linewidth = 2, 
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightBlue'),
-                    width = 500,
-                    height = 500,
                 	title = 'FRENADA')
 				}  
 
@@ -146,8 +144,6 @@ def update_graph_scatter(n):
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
                 	yaxis = dict(range = [-1 , 6], title = 'Marcha Actual', showline = True, linewidth = 2, 
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
-                    width = 500,
-                    height = 500,
                 	title = 'MARCHA')
 				}
 
