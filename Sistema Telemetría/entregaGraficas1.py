@@ -27,45 +27,69 @@ Y4 = deque(maxlen=40)
 app = dash.Dash(__name__)
 
 app.layout = html.Div(
-    [
-		# Añadimos la grafica de velocidad
-        dcc.Graph(id='vel-graph', animate=False),
-		# Añadimos gráfica de presión de frenada
-        dcc.Graph(id='fren-graph', animate=False),
-		# Añadimos gráfica de la marcha actual
-        dcc.Graph(id='marcha-graph', animate=False),
-		# Visor de revoluciones por segundo
-        daq.Gauge(
-			color="#DC3912",
-			showCurrentValue=True,
-			units="RPS",
-			id='gauge',
-			label="Revoluciones",
-			max=8000,
-			min=0,
-			value=0
+	children=[
+		html.Div(
+			[
+				# Añadimos la grafica de velocidad
+				dcc.Graph(id='vel-graph', animate=False),
+			], style={'width': '100%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'}
 		),
-		# Visor del tanque de gasolina, en porcentage
-        daq.Tank(
-			value=100,
-            color="#FF9900",
-			id='tank',
-			showCurrentValue=True,
-			units='litros',
-			max=100,
-            min=0,
-			style={'margin': 'auto', 'textAlign': 'center'}
+		html.Div(
+			[
+				# Añadimos gráfica de presión de frenada
+				dcc.Graph(id='fren-graph', animate=False),
+			], style={'width': '100%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'}
 		),
-		# Gráfica de combustible en tiempo
-        dcc.Graph(id='comb-graph', animate=False, style={'center': 'auto'}
+		html.Div(
+			[
+				# Añadimos gráfica de la marcha actual
+				dcc.Graph(id='marcha-graph', animate=False),
+			], style={'width': '100%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'}
 		),
-		# Actualizamos funciones cada 'interval' empezando desde 'n_interval'
-        dcc.Interval(
-			id='graph-update',
-			interval=200,
-			n_intervals=0
+		html.Div(
+			[
+				# Visor de revoluciones por segundo
+				daq.Gauge(
+					color="#DC3912",
+					showCurrentValue=True,
+					units="RPS",
+					id='gauge',
+					label="Revoluciones",
+					max=8000,
+					min=0,
+					value=0
+				),
+				# Visor del tanque de gasolina, en porcentage
+				daq.Tank(
+					value=100,
+					color="#FF9900",
+					id='tank',
+					showCurrentValue=True,
+					units='litros',
+					max=100,
+					min=0,
+					style={'margin': 'auto', 'textAlign': 'center'}
+				),
+				
+			], style={'width': '100%', 'display': 'flex', 'align-items': 'center'}
 		),
-    ]
+		html.Div(
+			[
+				# Gráfica de combustible en tiempo
+				dcc.Graph(
+					id='comb-graph', animate=False, style={'center': 'auto'}
+				),
+				# Actualizamos funciones cada 'interval' empezando desde 'n_interval'
+				dcc.Interval(
+					id='graph-update',
+					interval=200,
+					n_intervals=0
+				)
+			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
+		),
+
+	]
+		
 )
 # Declaramos callbacks para el muestreo desde el csv asignado
 
@@ -91,7 +115,7 @@ def update_graph_scatter(n):
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
 					yaxis = dict(range = [0,250], title = 'Velocidad (Km/h)', showline = True, linewidth = 2, 
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
-					title = 'SPEED')
+					title = 'VELOCIDAD')
 				}
 
 
@@ -186,7 +210,7 @@ def update_graph_scatter(n):
 		graph = go.Scatter(
 			x=list(X4),
 			y=list(Y4),
-			name='Scatter',
+			name='Combustible actual',
             fill = 'tozeroy',
             fillcolor = '#FF7F0E',
 			mode= 'lines'
@@ -195,7 +219,7 @@ def update_graph_scatter(n):
 		graph2 = go.Scatter(
 			x=prec,
 			y=Yp,
-			name = 'Scatter',
+			name = 'Predicción combustible',
 			mode = 'markers',
 			line=dict(color="#FF7F0E")
 		)
@@ -208,4 +232,4 @@ def update_graph_scatter(n):
 				}
 
 if __name__ == '__main__':
-	app.run_server(debug = True)
+	app.run_server(debug = False)
