@@ -1,8 +1,8 @@
 import dash
 import math
 from dash.dependencies import Output, Input
-from dash import dcc
-from dash import html
+import dash_core_components as dcc
+import dash_html_components as html
 from pandas.core.base import DataError
 import plotly
 import random
@@ -21,7 +21,7 @@ X4 = deque(maxlen=40)
 Y = deque(maxlen=20)
 Y2 = deque(maxlen=20)
 Y3 = deque(maxlen=20)
-Y4 = deque(maxlen=300)
+Y4 = deque(maxlen=40)
 
 # Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
