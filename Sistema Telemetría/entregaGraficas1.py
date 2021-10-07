@@ -32,19 +32,19 @@ app.layout = html.Div(
 			[
 				# Añadimos la grafica de velocidad
 				dcc.Graph(id='vel-graph', animate=False),
-			], style={'width': '100%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'}
+			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
 		),
 		html.Div(
 			[
 				# Añadimos gráfica de presión de frenada
 				dcc.Graph(id='fren-graph', animate=False),
-			], style={'width': '100%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'}
+			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
 		),
 		html.Div(
 			[
 				# Añadimos gráfica de la marcha actual
 				dcc.Graph(id='marcha-graph', animate=False),
-			], style={'width': '100%', 'display': 'flex', 'align-items': 'center', 'justify-content': 'center'}
+			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
 		),
 		html.Div(
 			[
@@ -99,7 +99,7 @@ app.layout = html.Div(
 	[Input('graph-update', 'n_intervals')]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		X.append(data['xlength'][n])
 		Y.append(data['vel'][n])
 		graph = go.Scatter(
@@ -124,7 +124,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		Y2.append(data['fren'][n])		
 		graph = go.Scatter(
 			x=list(X),
@@ -140,7 +140,7 @@ def update_graph_scatter(n):
 				'layout' : go.Layout(
 					xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)', showline = True, linewidth = 2, 
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightBlue'),
-                	yaxis = dict(range = [0 , 250], title = 'Presión de Frenada (atm)', showline = True, linewidth = 2, 
+                	yaxis = dict(range = [0 , 1], title = 'Presión de Frenada (atm)', showline = True, linewidth = 2, 
 					linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightBlue'),
                 	title = 'FRENADA')
 				}  
@@ -151,7 +151,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		Y3.append(data['marcha'][n])
 		
 		graph = go.Scatter(
@@ -177,7 +177,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_gauge(n):
-	data = pd.read_csv('data.csv')
+	data = pd.read_csv('datosSimuladorCorregidos.csv')
 	return data['revact'][n]
 
 
@@ -186,7 +186,7 @@ def update_gauge(n):
 	[ Input('graph-update', 'n_intervals')]
 )
 def update_output(n):
-	data = pd.read_csv('data.csv')
+	data = pd.read_csv('datosSimuladorCorregidos.csv')
 	return int(data['comb'][n])
 
 comb_predic = predictor.Predictor()
@@ -196,7 +196,7 @@ comb_predic = predictor.Predictor()
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('data.csv')
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
 		X4.append(data['xtime'][n])
 		Y4.append(data['comb'][n])
 
