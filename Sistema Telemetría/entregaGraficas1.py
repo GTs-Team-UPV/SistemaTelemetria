@@ -13,6 +13,7 @@ import dash_daq as daq
 import numpy as np
 import plotly.express as px
 import predictor
+import dash_leaflet as dl
 
 X = deque(maxlen=40)
 X2 = deque(maxlen=40)
@@ -86,6 +87,12 @@ app.layout = html.Div(
 					n_intervals=0
 				)
 			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
+		),
+		html.Div(
+			[
+				dl.Map([dl.TileLayer(),dl.LayerGroup(id="layer", children=[dl.Marker(position=[40.6171,-3.58558])])], 
+				center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'})
+			], style={'width': '100%', 'justify-content': 'center'}
 		),
 
 	]
