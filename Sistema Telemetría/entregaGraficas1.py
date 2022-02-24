@@ -19,10 +19,12 @@ X = deque(maxlen=40)
 X2 = deque(maxlen=40)
 X3 = deque(maxlen=20)
 X4 = deque(maxlen=40)
+X5 = deque(maxlen=40)
 Y = deque(maxlen=20)
 Y2 = deque(maxlen=20)
 Y3 = deque(maxlen=20)
 Y4 = deque(maxlen=40)
+Y5 = deque(maxlen=40)
 
 # Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
@@ -91,7 +93,12 @@ app.layout = html.Div(
 		html.Div(
 			[
 				dl.Map([dl.TileLayer(),dl.LayerGroup(id="layer", children=[dl.Marker(position=[40.6171,-3.58558])])], 
-				center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'})
+				center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'}),
+				dl.Interval(
+					id='map-update',
+					interval=400,
+					n_intervals=0
+				)
 			], style={'width': '100%', 'justify-content': 'center'}
 		),
 
@@ -197,6 +204,47 @@ def update_output(n):
 	return int(data['comb'][n])
 
 comb_predic = predictor.Predictor()
+
+@app.callback(
+	Output('map', 'figure'),
+	[ Input('map-update', 'n_intervals') ]
+)
+def update_map(n):
+		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		X5.append(data['x_cord'][n])
+		Y5.append(data['y_cord'][n])
+
+	#	map = go.Scatter(
+	#		x=list(X5),
+	#		y=list(Y3),
+	#		name='Scatter',
+	#		mode= 'lines+markers',
+	#		line=dict(color="#03D750")
+	#	)
+		
+
+		return{'data': [map],
+				'layout' : go.Layout(
+
+				#	dl.Map([dl.TileLayer(),dl.LayerGroup(id="layer", children=[dl.Marker(position=[40.6171,-3.58558])])], 
+				#center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'}),
+					#xaxis=dict(range=[min(X),max(X)], title = 'Longitud Recorrida (m)', showline = True, linewidth = 2, 
+					#linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
+                	#yaxis = dict(range = [-1 , 6], title = 'Marcha Actual', showline = True, linewidth = 2, 
+					#linecolor = 'black', mirror = True, gridwidth=1, gridcolor='LightPink'),
+                	#title = 'MARCHA'
+				)
+				}
+				
+
+				
+		
+				
+				
+				
+
+
+		
 
 @app.callback(
 	Output('comb-graph', 'figure'),
