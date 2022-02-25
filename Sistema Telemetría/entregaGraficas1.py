@@ -94,7 +94,7 @@ app.layout = html.Div(
 			[
 				dl.Map([dl.TileLayer(),dl.LayerGroup(id="layer", children=[dl.Marker(position=[40.6171,-3.58558])])], 
 				center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'}),
-				dl.Interval(
+				dcc.Interval(
 					id='map-update',
 					interval=400,
 					n_intervals=0
@@ -267,7 +267,6 @@ def update_graph_scatter(n):
 			y=list(Y4),
 			name='Combustible actual',
             fill = 'tozeroy',
-            fillcolor = '#FF7F0E',
 			mode= 'lines'
 		)
 
@@ -281,7 +280,7 @@ def update_graph_scatter(n):
 
 		return {'data': [graph, graph2],
 				'layout' : go.Layout(
-					xaxis=dict(range=[min(X4),max(X4)+40], title = 'TIME (s)'),
+					xaxis=dict(range=[min(X4),punto], title = 'TIME (s)'),
                 	yaxis = dict(range = [0,100], title = 'COMB ( % )'),
                 	title = '% COMB / TIME')
 				}
