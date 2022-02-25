@@ -1,3 +1,7 @@
+import os, sys
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
 import dash
 import math
 from dash.dependencies import Output, Input
@@ -12,8 +16,11 @@ import pandas as pd
 import dash_daq as daq
 import numpy as np
 import plotly.express as px
-import predictor
+from predictor import predictor
 import dash_leaflet as dl
+
+
+
 
 X = deque(maxlen=40)
 X2 = deque(maxlen=40)
@@ -25,6 +32,8 @@ Y2 = deque(maxlen=20)
 Y3 = deque(maxlen=20)
 Y4 = deque(maxlen=40)
 Y5 = deque(maxlen=40)
+
+datosSimuladosFilename = "datosSimulados.csv"
 
 # Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
@@ -113,7 +122,7 @@ app.layout = html.Div(
 	[Input('graph-update', 'n_intervals')]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv(datosSimuladosFilename)
 		X.append(data['xlength'][n])
 		Y.append(data['vel'][n])
 		graph = go.Scatter(
@@ -138,7 +147,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv(datosSimuladosFilename)
 		Y2.append(data['fren'][n])		
 		graph = go.Scatter(
 			x=list(X),
@@ -165,7 +174,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv(datosSimuladosFilename)
 		Y3.append(data['marcha'][n])
 		
 		graph = go.Scatter(
@@ -191,7 +200,7 @@ def update_graph_scatter(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_gauge(n):
-	data = pd.read_csv('datosSimuladorCorregidos.csv')
+	data = pd.read_csv(datosSimuladosFilename)
 	return data['revact'][n]
 
 
@@ -200,7 +209,7 @@ def update_gauge(n):
 	[ Input('graph-update', 'n_intervals')]
 )
 def update_output(n):
-	data = pd.read_csv('datosSimuladorCorregidos.csv')
+	data = pd.read_csv(datosSimuladosFilename)
 	return int(data['comb'][n])
 
 comb_predic = predictor.Predictor()
@@ -210,7 +219,7 @@ comb_predic = predictor.Predictor()
 	[ Input('map-update', 'n_intervals') ]
 )
 def update_map(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv(datosSimuladosFilename)
 		X5.append(data['x_cord'][n])
 		Y5.append(data['y_cord'][n])
 
@@ -251,7 +260,7 @@ def update_map(n):
 	[ Input('graph-update', 'n_intervals') ]
 )
 def update_graph_scatter(n):
-		data = pd.read_csv('datosSimuladorCorregidos.csv')
+		data = pd.read_csv(datosSimuladosFilename)
 		X4.append(data['xtime'][n])
 		Y4.append(data['comb'][n])
 
