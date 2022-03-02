@@ -4,16 +4,19 @@ import csv
 import random
 import time
 
-# ser = serial.Serial('COM6', 57600, timeout=15, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS)
-# ser.write("mac pause\r\n".encode())
-# radio_decoded = 'radio_err'
+ser = serial.Serial('COM10', 57600, timeout=15, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS)
+ser.write("mac pause\r\n".encode())
+print(ser.readline())
+radio_decoded = 'radio_err\r\n'
 
 def listen():
+    global radio_decoded
     while True:
-        while radio_decoded == 'radio_err':
+        while radio_decoded == 'radio_err\r\n':
             ser.write("radio rx 0\r\n".encode())
             print(ser.readline())
             radio_decoded = ser.readline().decode('utf-8')
+
             print(radio_decoded)
         #Cuando se salga del bucle, tendremos en radio 
         #decoded el data bueno que habrá que tratar
@@ -40,10 +43,10 @@ def append_CSV(floatList):
     with open('received_data.csv', 'a') as csv_file:
         csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         info = {
-            "xlength" : floatList[0],
-            "vel" : floatList[1],
-            "fren" : floatList[2],
-            "rpm" : floatList[3],
+            "xlength" : round(floatList[0],2),
+            "vel" : round(floatList[1],2),
+            "fren" : round(floatList[2],2),
+            "rpm" : round(floatList[3],2),
             "marcha" : floatList[4],
             "comb" : comb,
             "xtime" : xtime
@@ -71,11 +74,11 @@ def reordenar_trama(trama):
     return hexList
 
 if __name__ == '__main__':
-    #listen()
-    hexList = reordenar_trama('097444FE4ED0427D2F4C3EBD871A458A00004000')
-    floatList = []
-    for item in hexList:
-        itemFloat = struct.unpack('!f', bytes.fromhex(item))[0]
-        floatList.append(itemFloat)
-    append_CSV(floatList)
+    listen()
+    # hexList = reordenar_trama('097444FE4ED0427D2F4C3EBD871A458A00004000')
+    # floatList = []
+    # for item in hexList:
+    #     itemFloat = struct.unpack('!f', bytes.fromhex(item))[0]
+    #     floatList.append(itemFloat)
+    # append_CSV(floatList)
     

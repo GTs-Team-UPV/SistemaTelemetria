@@ -17,10 +17,7 @@ import dash_daq as daq
 import numpy as np
 import plotly.express as px
 from predictor import predictor
-import dash_leaflet as dl
-
-
-
+#import dash_leaflet as dl
 
 X = deque(maxlen=40)
 X2 = deque(maxlen=40)
@@ -33,7 +30,7 @@ Y3 = deque(maxlen=20)
 Y4 = deque(maxlen=40)
 Y5 = deque(maxlen=40)
 
-datosSimuladosFilename = "datosSimulados.csv"
+datosSimuladosFilename = "received_data.csv"
 
 # Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
@@ -99,17 +96,17 @@ app.layout = html.Div(
 				)
 			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
 		),
-		html.Div(
-			[
-				dl.Map([dl.TileLayer(),dl.LayerGroup(id="layer", children=[dl.Marker(position=[40.6171,-3.58558])])], 
-				center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'}),
-				dcc.Interval(
-					id='map-update',
-					interval=400,
-					n_intervals=0
-				)
-			], style={'width': '100%', 'justify-content': 'center'}
-		),
+		# html.Div(
+		# 	[
+		# 		dl.Map([dl.TileLayer(),dl.LayerGroup(id="layer", children=[dl.Marker(position=[40.6171,-3.58558])])], 
+		# 		center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'}),
+		# 		dcc.Interval(
+		# 			id='map-update',
+		# 			interval=400,
+		# 			n_intervals=0
+		# 		)
+		# 	], style={'width': '100%', 'justify-content': 'center'}
+		# ),
 
 	]
 		
