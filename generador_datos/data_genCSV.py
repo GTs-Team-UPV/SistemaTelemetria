@@ -10,6 +10,7 @@ revact = 0
 comb = 100
 xtime = 0
 
+# ESTO ESTÁ ALGO DESORDENADO, REVACT AHORA ES RPM. CORREGIR EN BASE A LO QUE HAY EN RECEPTOR.PY
 fieldnames = ["xlength" , "vel" , "fren" , "marcha" , "revact" , "comb" , "xtime"]
 
 

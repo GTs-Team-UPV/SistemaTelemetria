@@ -64,7 +64,7 @@ app.layout = html.Div(
 				daq.Gauge(
 					color="#DC3912",
 					showCurrentValue=True,
-					units="RPS",
+					units="RPM",
 					id='gauge',
 					label="Revoluciones",
 					max=8000,
@@ -201,7 +201,7 @@ def update_graph_scatter(n):
 )
 def update_gauge(n):
 	data = pd.read_csv(datosSimuladosFilename)
-	return data['revact'][n]
+	return data['rpm'][n]
 
 
 @app.callback(
