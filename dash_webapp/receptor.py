@@ -65,7 +65,7 @@ def append_CSV(floatList):
         # fren = floatList[2]
         # rpm = floatList[3]
         # marcha = floatList[4]
-        # comb -= 0.5
+        comb -= 0.5
         # xtime += 1
 
 

@@ -91,7 +91,7 @@ app.layout = html.Div(
 				# Actualizamos funciones cada 'interval' empezando desde 'n_interval'
 				dcc.Interval(
 					id='graph-update',
-					interval=200,
+					interval=1340,
 					n_intervals=0
 				)
 			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
@@ -261,12 +261,12 @@ def update_graph_scatter(n):
 		X4.append(data['xtime'][n])
 		Y4.append(data['comb'][n])
 
-		comb_predic.añadirDatos(list(Y4),list(X4),100)
-		punto0=comb_predic.predecirX([0])
-		punto = math.ceil(punto0[0])
-		prec = list(range(max(X4),punto,1))
-		prec.append(punto0[0])
-		Yp=comb_predic.predecirY(prec)
+		# comb_predic.añadirDatos(list(Y4),list(X4),100)
+		# punto0=comb_predic.predecirX([0])
+		# punto = math.ceil(punto0[0])
+		# prec = list(range(max(X4),punto,1))
+		# prec.append(punto0[0])
+		# Yp=comb_predic.predecirY(prec)
 
 		graph = go.Scatter(
 			x=list(X4),
@@ -276,17 +276,17 @@ def update_graph_scatter(n):
 			mode= 'lines'
 		)
 
-		graph2 = go.Scatter(
-			x=prec,
-			y=Yp,
-			name = 'Predicción combustible',
-			mode = 'markers',
-			line=dict(color="#FF7F0E")
-		)
+		# graph2 = go.Scatter(
+		# 	x=prec,
+		# 	y=Yp,
+		# 	name = 'Predicción combustible',
+		# 	mode = 'markers',
+		# 	line=dict(color="#FF7F0E")
+		# )
 
-		return {'data': [graph, graph2],
+		return {'data': [graph],
 				'layout' : go.Layout(
-					xaxis=dict(range=[min(X4),punto], title = 'TIME (s)'),
+					xaxis=dict(range=[min(X4),max(X4)], title = 'TIME (s)'),
                 	yaxis = dict(range = [0,100], title = 'COMB ( % )'),
                 	title = '% COMB / TIME')
 				}
