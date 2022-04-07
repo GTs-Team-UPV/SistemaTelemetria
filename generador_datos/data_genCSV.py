@@ -2,46 +2,50 @@ import csv
 import random
 import time
 
-xlength = 0
-vel = 0
-fren = 0
-marcha = 0
-revact = 0
+xlength = vel = fren = rpm = marcha = comb = xtime = 0
 comb = 100
-xtime = 0
+x_cord = 40.614537
+y_cord = -3.583129
 
 # ESTO ESTÁ ALGO DESORDENADO, REVACT AHORA ES RPM. CORREGIR EN BASE A LO QUE HAY EN RECEPTOR.PY
-fieldnames = ["xlength" , "vel" , "fren" , "marcha" , "revact" , "comb" , "xtime"]
+fieldnames = ["xlength" , "vel" , "fren", "rpm" , "marcha", "comb" , "xtime", "x_cord","y_cord"]
 
 
-with open('data.csv', 'w') as csv_file:
+with open('testData.csv', 'w',newline='') as csv_file:
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     csv_writer.writeheader()
 
 while True:
     
-    with open('data.csv', 'a') as csv_file:
+    with open('testData.csv', 'a',newline='') as csv_file:
         csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         info = {
             "xlength" : xlength,
             "vel" : vel,
             "fren" : fren,
+            "rpm" : rpm,
             "marcha" : marcha,
-            "revact" : revact,
             "comb" : comb,
-            "xtime" : xtime
+            "xtime" : xtime,
+            "x_cord": x_cord,
+            "y_cord":y_cord
         }
 
         csv_writer.writerow(info)
-        print(xlength, vel, fren, marcha, revact, comb, xtime)
-
+    
         xlength += random.randint(20, 50)
         vel = random.randint(0, 200)
         fren = random.randint(0, 180)
+        rpm = random.randint(0, 8000)
         marcha = random.randint(-1, 6)
-        revact = random.randint(0, 8000)
         comb -= 0.5
         xtime += 1
+        if(xtime % 2 == 1):
+            x_cord=40.614536
+            y_cord=-3.583130
+        else:
+            x_cord = 40.614537
+            y_cord = -3.583129
         
 
     time.sleep(1)
