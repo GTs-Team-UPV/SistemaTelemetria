@@ -30,7 +30,7 @@ Y3 = deque(maxlen=20)
 Y4 = deque(maxlen=40)
 
 
-datosSimuladosFilename = "datosSimulados.csv"
+datosSimuladosFilename = "../generador_datos/testData.csv"
 
 # Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
@@ -174,7 +174,7 @@ def update_graph_scatter(n):
 )
 def update_graph_scatter(n):
 		data = pd.read_csv(datosSimuladosFilename)
-		data = data.tail()
+		data = data.tail(1)
 		Y3.append(data['marcha'].iloc[0])
 		
 		graph = go.Scatter(
@@ -211,6 +211,7 @@ def update_gauge(n):
 )
 def update_output(n):
 	data = pd.read_csv(datosSimuladosFilename)
+	data = data.tail(1)
 	return int(data['comb'].iloc[0])
 
 comb_predic = predictor.Predictor()
@@ -221,6 +222,7 @@ comb_predic = predictor.Predictor()
 )
 def update_map(n):
 		data = pd.read_csv(datosSimuladosFilename)
+		data = data.tail(1)
 		X5 = (data['x_cord'].iloc[0])
 		Y5 = (data['y_cord'].iloc[0])
 		return dl.Marker(position=[X5,Y5])	
