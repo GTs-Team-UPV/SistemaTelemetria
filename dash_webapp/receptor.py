@@ -74,7 +74,7 @@ def reordenar_trama(trama):
     print(hexUnorderedList)
     hexList = []
     for item in hexUnorderedList:
-        newItem = str(item[4:8]+item[0:4])
+        newItem = str(item[0:4]+item[4:8])
         hexList.append(newItem)
     print(hexList)
     return hexList
