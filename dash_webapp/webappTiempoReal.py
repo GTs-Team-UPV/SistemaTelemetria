@@ -30,7 +30,8 @@ Y3 = deque(maxlen=20)
 Y4 = deque(maxlen=40)
 
 
-datosSimuladosFilename = "../generador_datos/datosJava.csv"
+#datosSimuladosFilename = "../generador_datos/datosJava.csv"
+datosSimuladosFilename = "./received_data.csv"
 
 # Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
@@ -91,7 +92,7 @@ app.layout = html.Div(
 				# Actualizamos funciones cada 'interval' empezando desde 'n_interval'
 				dcc.Interval(
 					id='graph-update',
-					interval=1340,
+					interval=100,
 					n_intervals=0
 				)
 			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
@@ -102,7 +103,7 @@ app.layout = html.Div(
 				center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'}),
 				dcc.Interval(
 					id='map-update',
-					interval=400,
+					interval=100,
 		 			n_intervals=0
 		 		)
 		 	], style={'width': '100%', 'justify-content': 'center'}

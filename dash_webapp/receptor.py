@@ -4,13 +4,17 @@ import csv
 import random
 import time
 
-ser = serial.Serial('COM10', 57600, timeout=15, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS)
-ser.write("mac pause\r\n".encode())
-print(ser.readline())
+ser = serial.Serial('COM9', 57600, timeout=15, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS)
 ser.write("radio get freq\r\n".encode())
 print(ser.readline())
+ser.write("radio set mod fsk\r\n".encode())
+print(ser.readline())
+ser.write("radio set bitrate 19000\r\n".encode())
+print(ser.readline())
+ser.write("mac pause\r\n".encode())
+print(ser.readline())
 radio_decoded = 'radio_err\r\n'
-fieldnames = ["xlength" , "vel" , "fren" ,"rpm", "marcha", "comb" , "xtime"]
+fieldnames = ["xlength" , "vel" , "fren" ,"rpm", "marcha", "comb" , "xtime", "x_cord", "y_cord"]
 
 def listen():
     global radio_decoded
@@ -29,7 +33,7 @@ def listen():
         #decoded el data bueno que habrá que tratar
         #A lo mejor hay que quitar el radio rx antes de la trama
         radio_decoded = radio_decoded[10:]
-        radio_decoded = radio_decoded[:40]
+        radio_decoded = radio_decoded[:72]
         hexList = reordenar_trama(radio_decoded)
         floatList = []
         for item in hexList:
@@ -42,7 +46,7 @@ def listen():
 
 
 def append_CSV(floatList):
-    xlength = vel = fren = marcha = rpm = xtime = 0
+    xlength = vel = fren = marcha = rpm = xtime = xcord = ycord = 0
     comb = 100
     print(floatList)
     global fieldnames
@@ -54,8 +58,10 @@ def append_CSV(floatList):
             "fren" : round(floatList[2],2),
             "rpm" : round(floatList[3],2),
             "marcha" : int(floatList[4]),
-            "comb" : comb,
-            "xtime" : xtime
+            "comb" : int(floatList[5]),
+            "xtime" : round(floatList[6],2),
+            "x_cord": round(floatList[7],4),
+            "y_cord": round(floatList[8],4)
         }
 
         csv_writer.writerow(info)
@@ -66,8 +72,7 @@ def append_CSV(floatList):
         # rpm = floatList[3]
         # marcha = floatList[4]
         comb -= 0.5
-        # xtime += 1
-
+        #xtime += 1
 
 def reordenar_trama(trama):
     hexUnorderedList = [trama[i:i+8] for i in range(0, len(trama), 8)]
