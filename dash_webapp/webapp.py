@@ -32,33 +32,34 @@ Y4 = deque(maxlen=40)
 
 datosSimuladosFilename = "datosSimulados.csv"
 
+
 # Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
-
 app.layout = html.Div(
 	children=[
 		html.Div(
 			[
 				# Añadimos la grafica de velocidad
-				dcc.Graph(id='vel-graph', animate=False),
-			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
+				dcc.Graph(id='vel-graph', animate=False )
+			], style={ 'grid-row': '1', 'grid-column': '3' }
 		),
 		html.Div(
 			[
 				# Añadimos gráfica de presión de frenada
-				dcc.Graph(id='fren-graph', animate=False),
-			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
+				dcc.Graph(id='fren-graph', animate=False ),
+			], style={ 'grid-row': '2', 'grid-column': '3' }
 		),
 		html.Div(
 			[
 				# Añadimos gráfica de la marcha actual
 				dcc.Graph(id='marcha-graph', animate=False),
-			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
+			], style={ 'grid-row': '2', 'grid-column': '1' }
 		),
 		html.Div(
 			[
 				# Visor de revoluciones por segundo
 				daq.Gauge(
+					
 					color="#DC3912",
 					showCurrentValue=True,
 					units="RPM",
@@ -66,10 +67,12 @@ app.layout = html.Div(
 					label="Revoluciones",
 					max=8000,
 					min=0,
-					value=0
+					value=0,
+					style={'grid-column':'2'}
 				),
 				# Visor del tanque de gasolina, en porcentage
 				daq.Tank(
+					
 					value=100,
 					color="#FF9900",
 					id='tank',
@@ -77,10 +80,11 @@ app.layout = html.Div(
 					units='litros',
 					max=100,
 					min=0,
-					style={'margin': 'auto', 'textAlign': 'center'}
+					style={'grid-column':'1','margin':'auto'}
 				),
 				
-			], style={'width': '100%', 'display': 'flex', 'align-items': 'center'}
+			], style={ 'grid-row': '2', 'grid-column': '2','display': 'grid',
+    'grid-template-columns': 'repeat(2, 1fr)', }
 		),
 		html.Div(
 			[
@@ -94,23 +98,27 @@ app.layout = html.Div(
 					interval=1340,
 					n_intervals=0
 				)
-			], style={'width': '100%', 'align-items': 'center', 'justify-content': 'center'}
+			], style={ 'grid-row': '1', 'grid-column': '1' }
 		),
 		html.Div(
 			[
 				dl.Map([dl.TileLayer(),dl.LayerGroup(id="layer", children=[dl.Marker(position=[40.6171,-3.58558])])], 
-				center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '1000px', 'height': '700px'}),
+				center = [40.6171,-3.58558], zoom=16, id = "map", style={'width': '100%', 'height': '100%'}),
 				dcc.Interval(
 					id='map-update',
 					interval=400,
 		 			n_intervals=0
 		 		)
-		 	], style={'width': '100%', 'justify-content': 'center'}
-		 ),
+		 	], style={'grid-column':'2','grid-row':'1'}
+		 ), 
 
-	]
-		
+	],style={'width':'100%', 'display': 'grid',
+    'grid-template-columns': 'repeat(3, 1fr)',
+    'grid-gap': '1px',
+    'grid-template-rows': 'repeat(2, 1fr)',
+	}
 )
+
 # Declaramos callbacks para el muestreo desde el csv asignado
 
 
