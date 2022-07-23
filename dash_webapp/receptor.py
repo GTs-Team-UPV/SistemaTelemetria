@@ -26,9 +26,15 @@ def listen():
         while radio_decoded == 'radio_err\r\n':
             ser.write("radio rx 0\r\n".encode())
             print(ser.readline())
-            radio_decoded = ser.readline().decode('utf-8')
-
-            print(radio_decoded)
+            linea = ser.readline()
+            print(linea)
+            tamanyo = len(linea)
+            print(tamanyo)
+            if(len(linea) == 84):
+                radio_decoded = linea.decode('utf-8')
+                print(radio_decoded)
+            
+            
         #Cuando se salga del bucle, tendremos en radio 
         #decoded el data bueno que habrá que tratar
         #A lo mejor hay que quitar el radio rx antes de la trama

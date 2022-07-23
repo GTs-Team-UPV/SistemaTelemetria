@@ -30,7 +30,10 @@ Y3 = deque(maxlen=20)
 Y4 = deque(maxlen=40)
 
 
-datosSimuladosFilename = "../generador_datos/datosJava.csv"
+#datosSimuladosFilename = "../generador_datos/datosJava.csv"
+datosSimuladosFilename = "./dash_webapp/received_data.csv"
+datosSimuladosFilename = "./received_data.csv"
+
 
 # Declaramos el contenedor de la interfaz
 app = dash.Dash(__name__)
