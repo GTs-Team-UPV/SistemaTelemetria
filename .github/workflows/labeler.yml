@@ -1,0 +1,16 @@
+name: 🏷️ Labeler
+
+on:
+  pull_request_target:
+    branches:
+      - main
+
+jobs:
+  labeler:
+    name: 🏷️ Labeler
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🏷️ Run PR Labeler
+        uses: actions/labeler@main
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"

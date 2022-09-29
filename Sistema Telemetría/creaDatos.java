@@ -90,7 +90,7 @@ public class creaDatos{
             double porA;
             double porF;
             double increA;
-            double increF; 
+            double increF;
 
             /////llamada de los métodos/////
             porA = porAceleracion[i];
@@ -110,7 +110,7 @@ public class creaDatos{
             So = metros[i];
 
         }
-        
+
         /////Escritura en archivo.csv/////
         PrintWriter pw;
         try{
@@ -135,11 +135,11 @@ public class creaDatos{
                 csvData.append(',');
                 csvData.append(Double.toString(marcha[i]));
                 csvData.append('\n');
-                
+
             }
             pw.write(csvData.toString());
             pw.close();
-            
+
         }catch(Exception e){
             System.out.println("Se ha producido el error: " + e);
         }
@@ -162,7 +162,7 @@ public class creaDatos{
 
         return incre;
     }
-    
+
     public static double frenada(double Vant, double porF, double tMuestra){
         double multi = 26.82458782989084 * 4.8463;
         double inst = (Vant - 130 + multi) / 26.82458782989084;

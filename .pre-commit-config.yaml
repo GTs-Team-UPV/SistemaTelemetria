@@ -1,0 +1,15 @@
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.3.0
+      hooks:
+          # Comprueba todos los archivos yaml
+          - id: check-yaml
+          # Se asegura que todos los finales de línea sean \n y no \r\n de Windows
+          - id: end-of-file-fixer
+          # Se asegura que no hayan espacios en blanco al final de las líneas
+          - id: trailing-whitespace
+    - repo: https://github.com/psf/black
+      rev: 22.8.0
+      hooks:
+          # Formatea el código siguiendo el estándar "black"
+          - id: black

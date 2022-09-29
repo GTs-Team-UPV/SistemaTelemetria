@@ -10,25 +10,25 @@ revact = 0
 comb = 100
 xtime = 0
 
-fieldnames = ["xlength" , "vel" , "fren" , "marcha" , "revact" , "comb" , "xtime"]
+fieldnames = ["xlength", "vel", "fren", "marcha", "revact", "comb", "xtime"]
 
 
-with open('data.csv', 'w') as csv_file:
+with open("data.csv", "w") as csv_file:
     csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
     csv_writer.writeheader()
 
 while True:
-    
-    with open('data.csv', 'a') as csv_file:
+
+    with open("data.csv", "a") as csv_file:
         csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         info = {
-            "xlength" : xlength,
-            "vel" : vel,
-            "fren" : fren,
-            "marcha" : marcha,
-            "revact" : revact,
-            "comb" : comb,
-            "xtime" : xtime
+            "xlength": xlength,
+            "vel": vel,
+            "fren": fren,
+            "marcha": marcha,
+            "revact": revact,
+            "comb": comb,
+            "xtime": xtime,
         }
 
         csv_writer.writerow(info)
@@ -41,6 +41,5 @@ while True:
         revact = random.randint(0, 8000)
         comb -= 0.5
         xtime += 1
-        
 
     time.sleep(1)
