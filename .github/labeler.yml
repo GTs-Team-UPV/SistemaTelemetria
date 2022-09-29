@@ -1,0 +1,10 @@
+dependencies:
+  - any: [ "requirements*.txt" ]
+
+documentation:
+  - any: [ "**/*.md" ]
+    all: [ "!**/*.py", "!.github/**/*" ]
+
+github structure:
+  - any: [ ".github/**/*" ]
+    all: [ "!**/*.py" ]
