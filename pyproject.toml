@@ -1,0 +1,19 @@
+[project]
+name = "SistemaTelemetria"
+version = "0.0.1"
+authors = [
+    { name = "Carlos Gálvez", email = "author@example.com" },
+    { name = "Carlos Villena", email = "author@example.com" },
+    { name = "D-Deloc", email = "author@example.com" },
+    { name = "Arnau Mora", email = "arnyminer.z@gmail.com" },
+]
+description = "Aplicación para visualizar datos sobre el coche de competición para el grupo de Generación Espontánea 'GT's Team UPV' de la Universidad Politécnica de València."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/GTs-Team-UPV/SistemaTelemetria"
+"Bug Tracker" = "https://github.com/GTs-Team-UPV/SistemaTelemetria/issues"
