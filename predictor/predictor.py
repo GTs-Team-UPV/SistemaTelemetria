@@ -3,7 +3,7 @@ from sklearn import linear_model
 Para usarlo se necesita la libreria sklearn
     Tiene 3 metodos principales:
 
-    añdirDatos(list() Y, list() X, int valor_maximo_de_Y)
+    anyadirDatos(list() Y, list() X, int valor_maximo_de_Y)
     Este metodo pone en entrenamiento la inteligencia artificial y crea el coeficiente y el modulo del la ecuacion lineal
     atributos, este metodo se puede usar varias veces para ajustar el entrenamiento contra mas datos mas precision
     valorMaximoY sirve para ajustar la linea a un X=0 para poder decir por ejemplo que en tiempo 0 el valor es 100 o 98
@@ -23,7 +23,7 @@ class Predictor:
         self.regr = linear_model.LinearRegression()
         return
     
-    def añadirDatos(self, porc, t, valorMaximoY=None):
+    def anyadirDatos(self, porc, t, valorMaximoY=None):
         porcentaje=porc.copy()
         tiempo=t.copy()
         if(valorMaximoY != None):

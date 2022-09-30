@@ -4,7 +4,9 @@ import csv
 import random
 import time
 
-ser = serial.Serial('COM9', 57600, timeout=15, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS)
+#Para establecer la conexión con el RN2483 es necesario indicar a través de que puerto USB está conectado
+#Abrir Administrador de dispositivos y consultar Puertos (COM y LPT) en qué COMX está el dispositivo conectado 
+ser = serial.Serial('COM1', 57600, timeout=15, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, bytesize=serial.EIGHTBITS)
 ser.write("radio get freq\r\n".encode())
 print(ser.readline())
 ser.write("radio set mod fsk\r\n".encode())
@@ -52,8 +54,8 @@ def listen():
 
 
 def append_CSV(floatList):
-    xlength = vel = fren = marcha = rpm = xtime = xcord = ycord = 0
-    comb = 100
+    #xlength = vel = fren = marcha = rpm = xtime = xcord = ycord = 0
+    #comb = 100
     print(floatList)
     global fieldnames
     with open('received_data.csv', 'a',newline='') as csv_file:
@@ -77,7 +79,7 @@ def append_CSV(floatList):
         # fren = floatList[2]
         # rpm = floatList[3]
         # marcha = floatList[4]
-        comb -= 0.5
+        #comb -= 0.5
         #xtime += 1
 
 def reordenar_trama(trama):

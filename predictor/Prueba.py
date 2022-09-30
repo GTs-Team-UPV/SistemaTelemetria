@@ -12,7 +12,7 @@ y.reverse()
 y[0]=100
 prec=[0]
 LR = predictor.Predictor()
-LR.añadirDatos(y, x, 100)
+LR.anyadirDatos(y, x, 100)
 print(LR)
 punto0 = LR.predecirX(prec)
 print(punto0)
@@ -21,7 +21,7 @@ for i in range(0,len(x),1):
     y[i]=randint(0,100)
 y.sort()
 y.reverse()
-LR.añadirDatos(y, x, 100)
+LR.anyadirDatos(y, x, 100)
 print(LR)
 punto0 = LR.predecirX(prec)
 print(punto0)
